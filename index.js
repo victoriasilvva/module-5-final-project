@@ -16,13 +16,13 @@ function handleBrokenPoster(imgElement){
                 <p class="movie-card__year">${movieYear}</p>
             </div>`
 }
-
-async function posterHtml() {
-    const url = await fetch("https://www.omdbapi.com/?apikey=5e3afd0a&s=elmo")
+//fetches posters from OMDb API to render onto the page according to what the user searches or filters for
+async function posterHtml(movie) {
+    const url = await fetch(`https://www.omdbapi.com/?apikey=5e3afd0a&s=${movie}`)
     const data = await url.json()
 
     console.log(data.Search)
-    movies.innerHTML = data.Search.map(movie => {
+    movies.innerHTML = (data.Search || []).map(movie => {
         const isPosterMissing = movie.Poster === "N/A";
        return isPosterMissing ? `<div class="movie-card">
                 <div class="movie-card__poster-placeholder">
@@ -47,12 +47,7 @@ async function posterHtml() {
     
 
 }
-posterHtml()
-
-
-/* <div class="movie-card__poster-placeholder">
-    Movie Poster
-    <br>
-    Not Available
-</div> */
-
+//runs the posterHtml fn to use what the user types in the input to render once the user clicks outside of the input after <= 3 characters are typed into the input to not get undefined results
+function search(event){
+    posterHtml(event.target.value)
+}
