@@ -144,6 +144,10 @@ main {
     min-height: 100vh;
 }
 
+.results-info{
+    text-transform: capitalize;
+}
+
 /* May need to change to 96vh later???*/
 .controls {
     display: flex;

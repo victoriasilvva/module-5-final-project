@@ -28,12 +28,12 @@
     </nav>
     <main>
         <div class="controls">
-            <p class="results-info">
+            <p>
                 <span>Results showing for: </span> No movies displayed -> <br> *Please type at least 3 characters in the search bar to start searching!
             </p>
             <div>
                 <label for="sortSelect">Sort:</label>
-                <select id="sortSelect">
+                <select id="sortSelect" onchange="filterMovies(event)">
                     <option value="default">Default</option>
                     <option value="a-z">A - Z</option>
                     <option value="z-a">Z - A</option>
