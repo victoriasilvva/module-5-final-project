@@ -22,31 +22,15 @@ function handleBrokenPoster(imgElement) {
                 <p class="movie-card__year">${movieYear}</p>
             </div>`
 }
-//fetches posters from OMDb API to render onto the page according to what the user searches or filters for
-async function posterHtml(movie) {
-    if (movie) {
-        const url = await fetch(`https://www.omdbapi.com/?apikey=5e3afd0a&s=${movie}`)
-        const data = await url.json()
-        currentMovies = data.Search
-        originalMovies = data.Search || []
-    }
-    if (currentSort) {
-        currentMovies = [...originalMovies]
-    }
-    if (currentSort === "a-z") {
-        currentMovies.sort((a, b) => a.Title.localeCompare(b.Title))
-    }
-    if (currentSort === "z-a") {
-        currentMovies.sort((a, b) => b.Title.localeCompare(a.Title))
-    }
-    if (currentSort === "newest"){
-        currentMovies.sort((a, b) => b.Year.localeCompare(a.Year))
-    }
-    if (currentSort === "oldest"){
-        currentMovies.sort((a, b) => a.Year.localeCompare(b.Year))
-    }
 
+//search the movies using the search button
+function searchMovies(event) {
+    event.preventDefault()
+    renderMovies()
+}
 
+//helper fn to render movies onto the page
+function renderMovies() {
     movies.innerHTML = (currentMovies || []).map(movie => {
         const isPosterMissing = movie.Poster === "N/A";
         return isPosterMissing ? `<div class="movie-card">
@@ -68,9 +52,33 @@ async function posterHtml(movie) {
                 <h2 class="movie-card__title">${movie.Title}</h2>
                 <p class="movie-card__year">${movie.Year}</p>
             </div>`}).join('')
+}
 
+//fetches posters from OMDb API to render onto the page according to what the user searches or filters for
+async function posterHtml(movie) {
+    if (movie) {
+        const url = await fetch(`https://www.omdbapi.com/?apikey=5e3afd0a&s=${movie}`)
+        const data = await url.json()
+        currentMovies = data.Search
+        originalMovies = data.Search || []
+    }
+    if (currentSort) {
+        currentMovies = [...originalMovies]
+    }
+    if (currentSort === "a-z") {
+        currentMovies.sort((a, b) => a.Title.localeCompare(b.Title))
+    }
+    if (currentSort === "z-a") {
+        currentMovies.sort((a, b) => b.Title.localeCompare(a.Title))
+    }
+    if (currentSort === "newest") {
+        currentMovies.sort((a, b) => b.Year.localeCompare(a.Year))
+    }
+    if (currentSort === "oldest") {
+        currentMovies.sort((a, b) => a.Year.localeCompare(b.Year))
+    }
 
-
+    renderMovies()
 }
 //runs the posterHtml fn to use what the user types in the input to render once the user clicks outside of the input after <= 3 characters are typed into the input to not get undefined results. Then, the resultsInfo(event) fn runs to also display the title name at the top of the page next to "Results showing for:"
 function search(event) {

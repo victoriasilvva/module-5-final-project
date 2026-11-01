@@ -14,7 +14,7 @@
             <img src="./assets/fes-logo.png" alt="website logo" class="logo__img">
             <div class="logo__title"><span>Simplified</span> Flix</div>
         </div>
-        <form class="search-form" id="searchForm">
+        <form class="search-form" id="searchForm" onsubmit="searchMovies(event)">
             <div class="search-form__group">
                 <input class="search-form__input" type="text" id="searchInput" placeholder="Search movies..." onchange="search(event)">
                 <button class="search-form__button" type="submit" aria-label="Search"><svg aria-hidden="true"
