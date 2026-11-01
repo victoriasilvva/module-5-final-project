@@ -1,13 +1,18 @@
 //Global variables to locate where template strings should be sent to
 const movies = document.querySelector('.movies-grid')
 const title = document.querySelector('.controls')
+//Global variables to track the initial state of the movies' originally rendered order to then be filtered/re-rendered when the variable changes once the corresponding fn is triggered
+let currentMovies = []
+let currentSort = "default"
+let originalMovies = []
 
-    //helper function for cleaner code -> used by a fn below as an emergency fallback if the poster link is broken when the movies render onto the screen
-    function handleBrokenPoster(imgElement) {
-        const movieTitle = imgElement.dataset.title;
-        const movieYear = imgElement.dataset.year;
+//helper function for cleaner code -> used by async/await fn below as an emergency fallback placeholder if the poster link is broken when the movies render onto the screen
+function handleBrokenPoster(imgElement) {
+    const movieTitle = imgElement.dataset.title;
+    const movieYear = imgElement.dataset.year;
 
-        imgElement.closest('.movie-card').innerHTML = `<div class="movie-card">
+
+    imgElement.closest('.movie-card').innerHTML = `<div class="movie-card">
                 <div class="movie-card__poster-placeholder">
                  Movie Poster
                  <br>
@@ -16,16 +21,33 @@ const title = document.querySelector('.controls')
                 <h2 class="movie-card__title">${movieTitle}</h2>
                 <p class="movie-card__year">${movieYear}</p>
             </div>`
-    }
+}
 //fetches posters from OMDb API to render onto the page according to what the user searches or filters for
 async function posterHtml(movie) {
-    const url = await fetch(`https://www.omdbapi.com/?apikey=5e3afd0a&s=${movie}`)
-    const data = await url.json()
+    if (movie) {
+        const url = await fetch(`https://www.omdbapi.com/?apikey=5e3afd0a&s=${movie}`)
+        const data = await url.json()
+        currentMovies = data.Search
+        originalMovies = data.Search || []
+    }
+    if (currentSort) {
+        currentMovies = [...originalMovies]
+    }
+    if (currentSort === "a-z") {
+        currentMovies.sort((a, b) => a.Title.localeCompare(b.Title))
+    }
+    if (currentSort === "z-a") {
+        currentMovies.sort((a, b) => b.Title.localeCompare(a.Title))
+    }
+    if (currentSort === "newest"){
+        currentMovies.sort((a, b) => b.Year.localeCompare(a.Year))
+    }
+    if (currentSort === "oldest"){
+        currentMovies.sort((a, b) => a.Year.localeCompare(b.Year))
+    }
 
-    console.log(data.Search)
 
-    movies.innerHTML = (data.Search || []).map(movie => {
-        
+    movies.innerHTML = (currentMovies || []).map(movie => {
         const isPosterMissing = movie.Poster === "N/A";
         return isPosterMissing ? `<div class="movie-card">
                 <div class="movie-card__poster-placeholder">
@@ -55,14 +77,14 @@ function search(event) {
     posterHtml(event.target.value)
     resultsInfo(event)
 }
-//this will run when the search(event) fn is triggered to show the  what the user typed in the input next to "Results showing for:"
+//this will run when the search(event) fn is triggered to show what the user typed in the input next to "Results showing for:"
 function resultsInfo(event) {
     return title.innerHTML = `<p onchange="resultsInfo(event)">
-                Results showing for: <span class="results-info">"${event.target.value}"</span
+                Results showing for: <span class="results-info">${event.target.value}</span>
             </p>
             <div>
                 <label for="sortSelect">Sort:</label>
-                <select id="sortSelect">
+                <select id="sortSelect" onchange="filterMovies(event)">
                     <option value="default">Default</option>
                     <option value="a-z">A - Z</option>
                     <option value="z-a">Z - A</option>
@@ -72,14 +94,8 @@ function resultsInfo(event) {
                 </div>`
 }
 
-//filter through movies in API and only render the ones onto the page that match what the user clicks on
+//filter through movies in API so that the posterHtml fn once triggered only then renders the movies onto the page that matches the set filtered order of what the user clicks on in the dropdown menu
 function filterMovies(event) {
-    posterHtml(event.target.value)
+    currentSort = event.target.value;
+    posterHtml()
 }
-
-
-//user selects new dropdown option which triggers the onchange fn to run
-//onchange fn will be configured in JS to listen for the user to click on a changed sort option from the dropdown, read the value of the event of what the user typed, connect that value to the titles of books in the API to sort them first according to what the dropdown selection was and then render those onto the screen
-//At the same time have the "showing:" result at the top change to match your filter value that the user clicked on
-//but first step is to sort A - Z, so the value should match "a-z" that you set in your HTML first
-//You have to create a variable that remembers what the user clicked so const 
