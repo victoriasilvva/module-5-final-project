@@ -29,7 +29,7 @@ function searchMovies(event) {
     renderMovies()
 }
 
-//helper fn to render movies onto the page
+//helper fn to render movies onto the page after a 1 sec loading screen is styled to occur while the user waits for the API to render the movies
 function renderMovies() {
     movies.innerHTML = new Array(10).fill(0).map(() => `
     <div class="movie-card--skeleton">

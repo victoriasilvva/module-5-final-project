@@ -55,7 +55,8 @@ nav:has(.search-form__input:hover) {
     background-size: 100% 100%, 250% 100%;
     animation: navShimmer 1.5s infinite;
 }
-.nav__wrapper{
+
+.nav__wrapper {
     display: flex;
 }
 
@@ -286,7 +287,8 @@ footer {
         flex-direction: column;
         min-height: 120px;
     }
-    .nav__wrapper{
+
+    .nav__wrapper {
         max-width: 768px;
         width: 100%;
         display: flex;
@@ -294,38 +296,44 @@ footer {
         justify-content: center;
         align-items: center;
     }
-    .logo{
+
+    .logo {
         font-size: 24px;
         gap: 8px;
         margin-bottom: 8px;
     }
-    .search-form__input{
+
+    .search-form__input {
         width: 320px
     }
 }
 
 /* SMALL PHONES */
-@media (max-width: 659px){
-    .sort-select__para{
+@media (max-width: 659px) {
+    .sort-select__para {
         max-width: 300px;
     }
-    .controls{
+
+    .controls {
         display: flex;
         align-items: start;
     }
 }
+
 /* SMALL PHONES */
-@media (max-width: 458px){
-    .sort-select__para{
+@media (max-width: 458px) {
+    .sort-select__para {
         max-width: 250px
     }
-    .controls{
+
+    .controls {
         align-items: start
     }
 }
+
 /* SMALL PHONES */
-@media (max-width: 409px){
-    .sort-select__para{
+@media (max-width: 409px) {
+    .sort-select__para {
         max-width: 200px
     }
 }
