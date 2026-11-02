@@ -35,8 +35,10 @@ nav {
     display: grid;
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
+    justify-content: center;
     border-radius: 0 0 20% 20%;
     transition: --nav-angle 300ms ease;
+    max-height: 120px;
 }
 
 nav:has(.search-form__input:hover) {
@@ -53,6 +55,9 @@ nav:has(.search-form__input:hover) {
     background-size: 100% 100%, 250% 100%;
     animation: navShimmer 1.5s infinite;
 }
+.nav__wrapper{
+    display: flex;
+}
 
 @keyframes navShimmer {
     0% {
@@ -65,11 +70,10 @@ nav:has(.search-form__input:hover) {
 }
 
 .logo {
-    grid-column: 1;
     display: flex;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
-    justify-self: start;
+    grid-column: 1;
 }
 
 .logo__img {
@@ -86,7 +90,6 @@ nav:has(.search-form__input:hover) {
 }
 
 .search-form {
-    grid-column: 2;
     justify-self: center;
     display: flex;
     gap: 8px;
@@ -105,6 +108,7 @@ nav:has(.search-form__input:hover) {
     border: none;
     border: 2px solid #333;
     width: 380px;
+    grid-column: 2 start;
 }
 
 .search-form__input:hover {
@@ -152,7 +156,7 @@ main {
 .controls {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: start;
     max-width: 1200px;
     margin: 0 auto;
 }
@@ -275,4 +279,53 @@ footer {
     margin-top: 20px;
 }
 
-/* Make site responsive */
+/* Make site responsive -> LARGE SMARTPHONES, TABLETS, SMALL LAPTOPS */
+@media (max-width: 768px) {
+    nav {
+        display: flex;
+        flex-direction: column;
+        min-height: 120px;
+    }
+    .nav__wrapper{
+        max-width: 768px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .logo{
+        font-size: 24px;
+        gap: 8px;
+        margin-bottom: 8px;
+    }
+    .search-form__input{
+        width: 320px
+    }
+}
+
+/* SMALL PHONES */
+@media (max-width: 659px){
+    .sort-select__para{
+        max-width: 300px;
+    }
+    .controls{
+        display: flex;
+        align-items: start;
+    }
+}
+/* SMALL PHONES */
+@media (max-width: 458px){
+    .sort-select__para{
+        max-width: 250px
+    }
+    .controls{
+        align-items: start
+    }
+}
+/* SMALL PHONES */
+@media (max-width: 409px){
+    .sort-select__para{
+        max-width: 200px
+    }
+}
