@@ -31,9 +31,16 @@ function searchMovies(event) {
 
 //helper fn to render movies onto the page
 function renderMovies() {
-    movies.innerHTML = (currentMovies || []).map(movie => {
-        const isPosterMissing = movie.Poster === "N/A";
-        return isPosterMissing ? `<div class="movie-card">
+    movies.innerHTML = new Array(10).fill(0).map(() => `
+    <div class="movie-card--skeleton">
+                <div class="movie-card__img--skeleton"></div>
+                <div class="movie-card__title--skeleton"></div>
+                <div class="movie-card__year--skeleton"></div>
+            </div>`).join('');
+    setTimeout(() => {
+        movies.innerHTML = (currentMovies || []).map(movie => {
+            const isPosterMissing = movie.Poster === "N/A";
+            return isPosterMissing ? `<div class="movie-card">
                 <div class="movie-card__poster-placeholder">
                  Movie Poster
                  <br>
@@ -42,7 +49,7 @@ function renderMovies() {
                 <h2 class="movie-card__title">${movie.Title}</h2>
                 <p class="movie-card__year">${movie.Year}</p>
             </div>`:
-            `<div class="movie-card">
+                `<div class="movie-card">
                 <img class="movie-card__img"
                     src=${movie.Poster}
                     alt="movie poster image"
@@ -52,6 +59,11 @@ function renderMovies() {
                 <h2 class="movie-card__title">${movie.Title}</h2>
                 <p class="movie-card__year">${movie.Year}</p>
             </div>`}).join('')
+    }, 1000)
+
+
+
+
 }
 
 //fetches posters from OMDb API to render onto the page according to what the user searches or filters for
